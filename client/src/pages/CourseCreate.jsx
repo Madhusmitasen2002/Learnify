@@ -1,7 +1,7 @@
 // src/pages/CourseCreate.jsx
 import React, { useState, useContext, useEffect } from 'react';
 import api from '../api/axios';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/Authcontext';
 import { useNavigate } from 'react-router-dom';
 
 export default function CourseCreate() {

@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import api from '../api/axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/Authcontext';
 
 export default function LessonCreate() {
   const { id: courseId } = useParams(); // expects route /courses/:id/create-lesson

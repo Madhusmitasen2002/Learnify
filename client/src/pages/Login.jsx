@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Mail, Lock, LogIn } from "lucide-react";
 import { toast } from "react-toastify";
 import api from "../api/axios";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/Authcontext";
 
 export default function Login() {
   const navigate = useNavigate();

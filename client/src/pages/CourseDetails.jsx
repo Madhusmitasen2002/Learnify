@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/Authcontext';
 import { loadStripe } from '@stripe/stripe-js';
 
 export default function CourseDetail() {
