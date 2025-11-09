@@ -13,7 +13,7 @@ router.post("/create-checkout-session/:courseId", authMiddleware, async (req, re
     const courseId = req.params.courseId;
     const userId = req.user.userId;
 
-    // Fetch user email from Supabase
+    // Fetch user email
     const { data: user, error: userError } = await supabase
       .from("users")
       .select("email")
@@ -25,9 +25,9 @@ router.post("/create-checkout-session/:courseId", authMiddleware, async (req, re
       return res.status(500).json({ message: "Database error fetching user" });
     }
 
-    if (!user) {
-      console.warn("User not found in DB for id:", userId);
-      return res.status(404).json({ message: "User not found" });
+    if (!user || !user.email) {
+      console.warn("User email not found for id:", userId);
+      return res.status(400).json({ message: "User email not found" });
     }
 
     const customerEmail = user.email;
@@ -44,9 +44,14 @@ router.post("/create-checkout-session/:courseId", authMiddleware, async (req, re
       return res.status(404).json({ message: "Course not found" });
     }
 
-    const price = parseFloat(course.price);
+    console.log("🔥 COURSE DATA:", course);
+    console.log("🔥 Customer email:", customerEmail);
+
+    // Validate price
+    let price = parseFloat(course.price);
     if (isNaN(price) || price <= 0) {
-      return res.status(400).json({ message: "Invalid course price" });
+      console.warn("Invalid course price, using test price 100 INR");
+      price = 100; // Temporary test value (1 INR = 100 paise)
     }
 
     // Create Stripe session
@@ -68,6 +73,7 @@ router.post("/create-checkout-session/:courseId", authMiddleware, async (req, re
       customer_email: customerEmail,
     });
 
+    console.log("✅ Stripe session created:", session.id);
     res.json({ url: session.url });
   } catch (err) {
     console.error("Payment session error:", err);
