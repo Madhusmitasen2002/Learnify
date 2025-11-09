@@ -140,6 +140,51 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+
+      {/* ✅ Mobile Dropdown Menu */}
+      {isOpen && (
+        <div className="px-6 pb-4 space-y-3 font-medium text-gray-700 border-t md:hidden dark:text-gray-200 dark:border-gray-700">
+          <Link to="/" className="block transition hover:text-blue-500" onClick={() => setIsOpen(false)}>Home</Link>
+          <Link to="/courses" className="block transition hover:text-blue-500" onClick={() => setIsOpen(false)}>Courses</Link>
+          <Link to="/about" className="block transition hover:text-blue-500" onClick={() => setIsOpen(false)}>About</Link>
+          <Link to="/contact" className="block transition hover:text-blue-500" onClick={() => setIsOpen(false)}>Contact</Link>
+
+          {!user ? (
+            <div className="pt-2 space-y-2">
+              <Link
+                to="/login"
+                className="block px-4 py-2 text-center text-blue-500 border border-blue-500 rounded-md dark:text-blue-400 hover:bg-blue-500 hover:text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="block px-4 py-2 text-center text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </div>
+          ) : (
+            <div className="pt-2 space-y-2">
+              <Link to="/profile" className="block transition hover:text-blue-500" onClick={() => setIsOpen(false)}>My Profile</Link>
+              {user.role === "instructor" && (
+                <Link to="/instructor-dashboard" className="block transition hover:text-blue-500" onClick={() => setIsOpen(false)}>Instructor Dashboard</Link>
+              )}
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setIsOpen(false);
+                }}
+                className="block w-full px-4 py-2 text-center text-red-600 border border-red-500 rounded-md hover:bg-red-500 hover:text-white dark:text-red-400 dark:border-red-400"
+              >
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </nav>
   );
 };
